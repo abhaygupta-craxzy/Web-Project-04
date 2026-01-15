@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Celebrate with Party Poppers</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: radial-gradient(circle at top, #1a1a2e, #000);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Celebrate Button */
+    #celebrateBtn {
+        padding: 16px 45px;
+        font-size: 22px;
+        font-weight: bold;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        background: linear-gradient(45deg, #ffdd00, #ff7700);
+        box-shadow: 0 12px 35px rgba(255, 165, 0, 0.6);
+        transition: transform 0.2s;
+        z-index: 5;
+    }
+
+    #celebrateBtn:hover {
+        transform: scale(1.1);
+    }
+
+    /* Party popper image */
+    .popper {
+        position: fixed;
+        bottom: -120px;
+        width: 120px;
+        animation: shootUp 0.9s ease-out forwards;
+        z-index: 4;
+    }
+
+    .left {
+        left: 30px;
+        transform: rotate(-25deg);
+    }
+
+    .right {
+        right: 30px;
+        transform: rotate(25deg);
+    }
+
+    @keyframes shootUp {
+        to {
+            bottom: 160px;
+        }
+    }
+
+    /* Confetti */
+    .confetti {
+        position: fixed;
+        width: 8px;
+        height: 14px;
+        border-radius: 2px;
+        animation: explode 1.6s ease-out forwards;
+    }
+
+    @keyframes explode {
+        to {
+            transform: translate(var(--x), var(--y)) rotate(720deg);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<button id="celebrateBtn">🎉 Celebrate</button>
+
+<!-- AUDIO (PRELOADED) -->
+<audio id="burstSound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-party-popper-explosion-320.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const btn = document.getElementById("celebrateBtn");
+const sound = document.getElementById("burstSound");
+
+btn.addEventListener("click", () => {
+
+    /* FORCE sound to play (browser-safe) */
+    sound.pause();
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+
+    createPopper("left");
+    createPopper("right");
+});
+
+function createPopper(side) {
+    const popper = document.createElement("img");
+    popper.src = "party-popper.png"; // YOUR IMAGE
+    popper.className = `popper ${side}`;
+    document.body.appendChild(popper);
+
+    setTimeout(() => {
+        burstConfetti(popper.getBoundingClientRect());
+        popper.remove();
+    }, 900);
+}
+
+function burstConfetti(rect) {
+    for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement("div");
+        confetti.className = "confetti";
+
+        confetti.style.left = rect.left + rect.width / 2 + "px";
+        confetti.style.top = rect.top + "px";
+
+        confetti.style.background =
+            `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+        confetti.style.setProperty("--x", `${(Math.random() - 0.5) * 700}px`);
+        confetti.style.setProperty("--y", `${Math.random() * -550}px`);
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 1600);
+    }
+}
+</script>
+
+</body>
+</html>

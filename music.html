@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Sound</title>
+</head>
+<body>
+
+<button onclick="playSound()">Click Me 🎵</button>
+
+<audio id="clickSound" src="1gift-confetti.mp3"></audio>
+
+<script>
+function playSound() {
+    const sound = document.getElementById("clickSound");
+    sound.currentTime = 0; // restart sound every click
+    sound.play();
+}
+</script>
+
+</body>
+</html>

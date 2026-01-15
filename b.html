@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Abhay 🎂</title>
+
+<style>
+/* ================= RESET ================= */
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ================= BLACK NIGHT SKY ================= */
+body{
+  background:#000;
+  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  overflow:hidden;
+}
+
+/* ================= PAGE SYSTEM ================= */
+.page{
+  display:none;
+  position:absolute;
+  inset:0;
+  padding:2.5rem;
+  text-align:center;
+  animation:fadeUp .8s ease forwards;
+}
+.page.active{display:block}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ================= HEADINGS ================= */
+h1{
+  font-size:clamp(2.4rem,6vw,4rem);
+  background:linear-gradient(135deg,#ffdd57,#ff7ad9);
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+p{
+  margin-top:1rem;
+  font-size:1.2rem;
+  color:#ddd;
+}
+
+/* ================= NAME ================= */
+.name{
+  display:flex;
+  justify-content:center;
+  gap:.6rem;
+  perspective:900px;
+}
+.name span{
+  font-size:clamp(3rem,10vw,5.5rem);
+  font-weight:800;
+  color:#ffdd57;
+  opacity:0;
+  transform:translateY(40px) rotateX(60deg);
+  animation:reveal .8s ease forwards;
+}
+.name span:nth-child(1){animation-delay:0s}
+.name span:nth-child(2){animation-delay:.15s}
+.name span:nth-child(3){animation-delay:.3s}
+.name span:nth-child(4){animation-delay:.45s}
+.name span:nth-child(5){animation-delay:.6s}
+@keyframes reveal{
+  to{opacity:1;transform:translateY(0) rotateX(0)}
+}
+
+/* ================= BUTTONS ================= */
+.btn{
+  margin:1.6rem .4rem 0;
+  padding:12px 34px;
+  border-radius:30px;
+  border:none;
+  font-size:1rem;
+  cursor:pointer;
+  transition:.3s;
+}
+.btn.primary{
+  background:linear-gradient(135deg,#ffdd57,#ff7ad9);
+  color:#111;
+}
+.btn.secondary{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.3);
+  color:#fff;
+}
+.btn:hover{transform:translateY(-2px)}
+
+/* ================= CAKE ================= */
+.cake{
+  width:160px;
+  margin:2rem auto;
+}
+.layer{
+  height:40px;
+  background:#ff9ad5;
+  margin:6px 0;
+  border-radius:12px;
+  box-shadow:0 6px #e36bb0;
+}
+.candle{
+  width:10px;
+  height:40px;
+  background:#fff;
+  margin:auto;
+  position:relative;
+}
+.candle::before{
+  content:"";
+  position:absolute;
+  top:-18px;
+  left:-6px;
+  width:22px;
+  height:22px;
+  background:orange;
+  border-radius:50%;
+  animation:flicker .5s infinite alternate;
+}
+@keyframes flicker{
+  from{transform:scale(1)}
+  to{transform:scale(1.3)}
+}
+
+/* ================= CONFETTI / POPPERS ================= */
+.confetti,.popper,.mini-cake{
+  position:fixed;
+  top:-40px;
+  pointer-events:none;
+  z-index:5;
+}
+.confetti{
+  width:10px;
+  height:16px;
+  animation:fall linear forwards;
+}
+.popper{
+  font-size:24px;
+  animation:fall linear forwards;
+}
+.mini-cake{
+  font-size:22px;
+  animation:fall linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+
+/* ================= FIREWORKS ================= */
+canvas{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+}
+
+/* ================= VIDEO ================= */
+.video-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+}
+.video-modal video{
+  width:90%;
+  max-width:800px;
+  border-radius:20px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="video-modal" id="videoModal">
+  <video controls>
+    <source src="video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="name">
+    <span>A</span><span>B</span><span>H</span><span>A</span><span>Y</span>
+  </div>
+  <p>Today is all about joy, laughter & celebration 🎉</p>
+
+  <div class="cake">
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="candle"></div>
+  </div>
+
+  <button class="btn primary" onclick="startParty()">Start the Party 🎊</button>
+  <button class="btn secondary" onclick="nextPage(2)">Next →</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <h1>Special Memories</h1>
+  <p>Moments that make life beautiful 💖</p>
+  <button class="btn secondary" onclick="prevPage(1)">← Back</button>
+  <button class="btn primary" onclick="nextPage(3)">Next →</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <h1>Heartfelt Wishes</h1>
+  <p>May happiness dance around you always 🥳</p>
+  <button class="btn primary" onclick="partyBlast()">Celebrate 🎉</button>
+  <button class="btn secondary" onclick="prevPage(2)">← Back</button>
+  <button class="btn secondary" onclick="nextPage(4)">Next →</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="page4">
+  <h1>With Love & Blessings 💖</h1>
+  <p>Enjoy every moment of your special day 🎂</p>
+  <button class="btn primary" onclick="showVideo()">🎥 Watch Surprise</button>
+  <button class="btn secondary" onclick="nextPage(1)">Back to Start ⟳</button>
+</div>
+
+<script>
+/* ================= PAGE NAV ================= */
+function nextPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+n).classList.add('active');
+  partyBlast();
+}
+function prevPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page'+n).classList.add('active');
+}
+
+/* ================= MUSIC ================= */
+function startParty(){
+  document.getElementById('bgMusic').play();
+  partyBlast();
+  launchABHAY();
+}
+
+/* ================= CONFETTI / POPPERS / CAKES ================= */
+function partyBlast(){
+  const colors=["#ff0","#ff4d6d","#4dabf7","#63e6be","#ffd166","#c77dff"];
+  for(let i=0;i<120;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDuration=(3+Math.random()*3)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),6000);
+  }
+  for(let i=0;i<10;i++){
+    const p=document.createElement('div');
+    p.className='popper';
+    p.textContent=["🎉","🎊","🥳","✨","💥"][Math.floor(Math.random()*5)];
+    p.style.left=Math.random()*100+'vw';
+    p.style.animationDuration=(4+Math.random()*3)+'s';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),7000);
+  }
+  for(let i=0;i<6;i++){
+    const ck=document.createElement('div');
+    ck.className='mini-cake';
+    ck.textContent='🎂';
+    ck.style.left=Math.random()*100+'vw';
+    ck.style.animationDuration=(5+Math.random()*4)+'s';
+    document.body.appendChild(ck);
+    setTimeout(()=>ck.remove(),8000);
+  }
+}
+
+/* ================= VIDEO ================= */
+function showVideo(){
+  document.getElementById('videoModal').style.display='flex';
+  launchABHAY();
+}
+document.getElementById('videoModal').onclick=e=>{
+  if(e.target.tagName!=='VIDEO') e.currentTarget.style.display='none';
+}
+
+/* ================= FIREWORKS SPELLING ABHAY ================= */
+const canvas=document.getElementById('fireworks');
+const ctx=canvas.getContext('2d');
+function resize(){
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+}
+resize();addEventListener('resize',resize);
+
+const fwColors=["#ff4d6d","#ffd166","#4dabf7","#63e6be","#c77dff","#ff9f1c"];
+let particles=[];
+
+function textPoints(text){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.font="bold 160px Arial";
+  ctx.textAlign="center";
+  ctx.fillStyle="white";
+  ctx.fillText(text,canvas.width/2,canvas.height/2);
+  const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+  const pts=[];
+  for(let y=0;y<img.height;y+=6){
+    for(let x=0;x<img.width;x+=6){
+      if(img.data[(y*img.width+x)*4+3]>150) pts.push({x,y});
+    }
+  }
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  return pts;
+}
+const namePts=textPoints("ABHAY");
+
+function launchABHAY(){
+  namePts.forEach(p=>{
+    for(let i=0;i<2;i++){
+      const a=Math.random()*Math.PI*2;
+      const s=Math.random()*4+1;
+      particles.push({
+        x:p.x,y:p.y,
+        vx:Math.cos(a)*s,
+        vy:Math.sin(a)*s,
+        life:80,
+        color:fwColors[Math.floor(Math.random()*fwColors.length)]
+      });
+    }
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach((p,i)=>{
+    p.x+=p.vx;p.y+=p.vy;p.vy+=0.05;p.life--;
+    ctx.fillStyle=p.color;
+    ctx.fillRect(p.x,p.y,2,2);
+    if(p.life<=0) particles.splice(i,1);
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
